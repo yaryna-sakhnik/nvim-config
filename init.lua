@@ -82,3 +82,5 @@ vim.pack.add{
 }
 
 require'nvim-autopairs'.setup {}
+
+vim.pack.add({ "https://github.com/sakhnik/quickterm.nvim", })
