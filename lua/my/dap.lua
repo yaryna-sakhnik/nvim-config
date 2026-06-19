@@ -1,10 +1,10 @@
 vim.pack.add {
-    { src = 'https://github.com/mfussenegger/nvim-dap', },
-    { src = 'https://github.com/mfussenegger/nvim-dap-python', },
-    { src = "https://github.com/igorlfs/nvim-dap-view", version = vim.version.range("1.*")  },
+  { src = 'https://github.com/mfussenegger/nvim-dap', },
+  { src = 'https://github.com/nvim-neotest/nvim-nio', },
+  { src = 'https://github.com/igorlfs/nvim-dap-view', },
+  { src = 'https://github.com/mfussenegger/nvim-dap-python', },
+  { src = 'https://github.com/jbyuki/one-small-step-for-vimkind', },
 }
-
-vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
 
 local last_config = nil
 
@@ -21,6 +21,7 @@ local function configure_dap()
     vim.keymap.del('n', '<f4>')
     vim.keymap.del('n', '<f5>')
     vim.keymap.del('n', '<f8>')
+    vim.keymap.del('n', '<f9>')
     vim.keymap.del('n', '<f10>')
     vim.keymap.del('n', '<f11>')
     vim.keymap.del('n', '<f12>')
@@ -43,6 +44,7 @@ local function configure_dap()
       vim.keymap.set('n', '<f4>', require'dap'.run_to_cursor, { silent = true })
       vim.keymap.set('n', '<f5>', require'dap'.continue, { silent = true })
       vim.keymap.set('n', '<f8>', require'dap'.set_breakpoint, { silent = true })
+      vim.keymap.set('n', '<f9>', '<Cmd>DapViewHover<cr>', { silent = true })
       vim.keymap.set('n', '<f10>', require'dap'.step_over, { silent = true })
       vim.keymap.set('n', '<down>', require'dap'.step_over, { silent = true })
       vim.keymap.set('n', '<f11>', require'dap'.step_into, { silent = true })
@@ -64,6 +66,9 @@ local function get(module)
     configured = true
 
     configure_dap()
+    if vim.fn.executable('gdb') == 1 then
+      require('dapcfg.cpp')
+    end
   end
   return require(module)
 end
@@ -86,3 +91,8 @@ vim.api.nvim_create_autocmd('FileType', {
     get('dap-python').setup('python3')
   end,
 })
+
+vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointCondition', {text='❓', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapLogPoint', {text='📝', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='❌', texthl='', linehl='', numhl=''})
