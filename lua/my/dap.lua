@@ -6,10 +6,28 @@ vim.pack.add {
   { src = 'https://github.com/jbyuki/one-small-step-for-vimkind', },
 }
 
+local configured_dap_view = false
+
+local function get_dap_view()
+  local dap_view = require'dap-view'
+  if not configured_dap_view then
+    configured_dap_view = true
+    dap_view.setup {
+      windows = {
+        size = 0.5,
+        position = "right",
+      },
+      auto_toggle = true,
+    }
+  end
+  return dap_view
+end
+
 local last_config = nil
 
 local function configure_dap()
   local dap = require('dap')
+  get_dap_view()
   local timer_id = -1
 
   ---@param session dap.Session
@@ -84,6 +102,7 @@ end
 vim.keymap.set('n', '<leader>bb', function() get('dap').toggle_breakpoint() end, {noremap = true, silent = true, desc = 'DAP toggle breakpoint'})
 vim.keymap.set('n', '<leader>bc', debug_last_session, {noremap = true, silent = true, desc = 'DAP last session'})
 vim.keymap.set('n', '<leader>bC', function() get('dap').continue() end, {noremap = true, silent = true, desc = 'DAP continue'})
+vim.keymap.set('n', '<leader>D', function() get_dap_view().toggle() end, {noremap = true, silent = true, desc = 'DAP View toggle'})
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'python',
