@@ -16,6 +16,13 @@ local function get_dap_view()
       windows = {
         size = 0.5,
         position = "right",
+        terminal = {
+            size = 0.5,
+            position = "below",
+            -- List of debug adapters for which the terminal should be ALWAYS hidden
+            -- Can also be set to "true" to never show the terminal
+            hide = {},
+        },
       },
       auto_toggle = true,
     }
