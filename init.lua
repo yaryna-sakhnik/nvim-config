@@ -5,6 +5,10 @@ vim.o.list = true
 vim.o.undofile = true
 vim.g.mapleader = ' '
 
+vim.keymap.set("n", "<leader>y", "<cmd>%yank +<cr>", {
+  desc = "Copy entire file to clipboard",
+})
+
 vim.pack.add {
   { src = 'https://github.com/folke/tokyonight.nvim', },
   { src = 'https://github.com/ellisonleao/gruvbox.nvim', },
