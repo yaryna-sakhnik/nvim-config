@@ -8,6 +8,9 @@ vim.g.mapleader = ' '
 vim.keymap.set("n", "<leader>y", "<cmd>%yank +<cr>", {
   desc = "Copy entire file to clipboard",
 })
+vim.keymap.set("n", "<leader>m", "<cmd>update<cr><cmd>make<cr>", {
+  desc = "Save and make",
+})
 
 vim.pack.add {
   { src = 'https://github.com/folke/tokyonight.nvim', },
